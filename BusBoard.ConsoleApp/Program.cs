@@ -11,37 +11,21 @@ namespace BusBoard
     {
         static void Main(string[] args)
         {
-            var client = new RestClient("https://api.tfl.gov.uk");
+            var busStop = new Prompts().GetUserInput("Type a bus stop code to see the next 5 buses at that stop");
             
-            var postcodeClient = new RestClient("https://api.postcodes.io");
+            ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+            var tflBusResponse = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStop}/Arrivals");
+            tflBusResponse.ForEach(bus => Console.WriteLine(bus.LineName));
 
-            Prompts busCodePrompt = new Prompts();
-            var busStop = busCodePrompt.GetUserInput("Type a bus stop code to see the next 5 buses at that stop");
-
-            var nextFiveBusesRequest = new RestRequest($"/StopPoint/{busStop}/Arrivals", DataFormat.Json)
-                .AddQueryParameter("app_id", "f8163132")
-                .AddQueryParameter("app_key", Environment.GetEnvironmentVariable("TFL_APP_KEY"));
-            var nextFiveBusesResponse = client.Get<List<Bus>>(nextFiveBusesRequest);
-
-            var data = nextFiveBusesResponse.Data;
             
-            foreach (var bus in data)
-            {
-                Console.WriteLine(bus.LineName);
-            }
+            //var client = new RestClient("https://api.tfl.gov.uk");
+            //var postcodeClient = new RestClient("https://api.postcodes.io");
+            var postcode = new Prompts().GetUserInput("Enter your postcode");
+            ConnectedApi postcodeClient = new ConnectedApi("https://api.postcodes.io");
+            var postcodeResponse = postcodeClient.GetResponse<List<Postcode>>($"/postcodes/{postcode}");
+            postcodeResponse.ForEach(pc => Console.WriteLine(pc.Lat));
             
-            /*foreach (var item in nextFiveBusesResponse.Data)
-            {
-                var lineName = item.LineName;
-                Console.WriteLine(lineName);
-            }*/
-            
-            Prompts postCodePrompt = new Prompts();
-            var postcode = postCodePrompt.GetUserInput("Enter your postcode");
-
-            var postcodeLatLonRequest = new RestRequest($"/postcodes/{postcode}");
-            var postcodeLatLonResponse = client.Get<List<Postcode>>(postcodeLatLonRequest);
-            Console.WriteLine(postcodeLatLonResponse);
+            // Console.WriteLine(postcodeLatLonResponse);
         }
     } 
 }
