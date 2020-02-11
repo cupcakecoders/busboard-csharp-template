@@ -18,9 +18,11 @@ namespace BusBoard
             
             //provide postcode, display 
             var postcode = new Prompts().GetUserInput("Enter your postcode");
-            var postcodeList = GetLatLonFromPostcodesIo(postcode);
-            TflBusStopsNearLatLon(postcodeList);
-
+            var postcodeResponse = GetResponseFromPostcodesIo(postcode);
+            var latitute = GetLatFromPostcodeIoResponse(postcodeResponse);
+            var longitude = GetLonFromPostcodeIoResponse(postcodeResponse);
+            var stopPoints = TflBusStopsNearLatLon(longitude, latitute);
+            var stopPointData = DisplayStopPointName(stopPoints);
         }
 
          private static List<Bus> GetTflBusesFromStopCode(string busStop)
@@ -35,21 +37,37 @@ namespace BusBoard
              buses.ForEach(bus => Console.WriteLine(bus.LineName));
          }
 
-         public static List<Postcode> GetLatLonFromPostcodesIo(string postcode)
+         public static Postcode GetResponseFromPostcodesIo(string postcode)
          {
              ConnectedApi postcodeClient = new ConnectedApi("https://api.postcodes.io");
-             var postcodeResponse = postcodeClient.GetResponse<List<Postcode>>($"/postcodes/{postcode}");
+             Postcode postcodeResponse = postcodeClient.GetResponse<Postcode>($"/postcodes/{postcode}");
+
              return postcodeResponse;
          }
 
-         //https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=51.576756&lon=-0.43125
-         
-         private static List<Postcode> TflBusStopsNearLatLon(List<Postcode> postcodes, string lat, string lon)
+         public static double GetLatFromPostcodeIoResponse(Postcode postcodes)
          {
-             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
-             var tflStopPointsWithinResponse = tflClient.GetResponse<List<Postcode>>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={lat}&lon=-{lon}");
-             tflStopPointsWithinResponse.ForEach(); //get each bus stop
+             var latitude = postcodes.Result.Latitude;
+             return latitude; 
          }
          
+         public static double GetLonFromPostcodeIoResponse(Postcode postcodes)
+         {
+             var longitude = postcodes.Result.Longitude;
+             return longitude; 
+         }
+         
+         private static List<StopPointsRadius> TflBusStopsNearLatLon(double latitude, double longitude)
+         {
+             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+             var tflStopPointsInRadius = tflClient.GetResponse<List<StopPointsRadius>>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={latitude}&lon=-{longitude}");
+             return tflStopPointsInRadius;
+         }
+
+         private static string DisplayStopPointName(List<StopPointsRadius> stopPoints)
+         {
+             
+             return null;
+         }
     } 
 }
