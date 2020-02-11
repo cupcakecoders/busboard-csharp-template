@@ -22,7 +22,10 @@ namespace BusBoard
             var latitute = GetLatFromPostcodeIoResponse(postcodeResponse);
             var longitude = GetLonFromPostcodeIoResponse(postcodeResponse);
             var stopPoints = TflBusStopsNearLatLon(longitude, latitute);
-            var stopPointData = DisplayStopPointName(stopPoints);
+            //var stopPointName = DisplayStopPointName(stopPoints);
+            //var stopPointID = DisplayStopPointId(stopPoints);
+            //Console.WriteLine(stopPointName);
+            //Console.WriteLine(stopPointID);
         }
 
          private static List<Bus> GetTflBusesFromStopCode(string busStop)
@@ -57,17 +60,26 @@ namespace BusBoard
              return longitude; 
          }
          
-         private static List<StopPointsRadius> TflBusStopsNearLatLon(double latitude, double longitude)
+         private static StopPointsRadius TflBusStopsNearLatLon(double latitude, double longitude)
          {
              ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
-             var tflStopPointsInRadius = tflClient.GetResponse<List<StopPointsRadius>>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={latitude}&lon=-{longitude}");
+             var tflStopPointsInRadius = tflClient.GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={latitude}&lon=-{longitude}");
              return tflStopPointsInRadius;
          }
 
-         private static string DisplayStopPointName(List<StopPointsRadius> stopPoints)
+         private static void DisplayStopPointName(StopPointsRadius stopPoints)
          {
-             
-             return null;
+             var newstop = stopPoints.StopPoints;
+             var id = newstop.Id;
+             Console.WriteLine(id[0]);
+
+             //var busStopName = stopPoints.StopPoints.CommonName;
+             //return busStopName;
          }
+         /*private static string DisplayStopPointId(StopPointsRadius stopPoints)
+         {
+             var busStopId = stopPoints.StopPoints.Id;
+             return busStopId;
+         }*/
     } 
 }
