@@ -7,9 +7,8 @@ namespace BusBoard
         public List<StopPoints> StopPoints { get; set; }
     }
 
-    public class StopPoints 
+    public class StopPoints
     {
         public string StationNaptan { get; set; } //StopPoints
-        
     }
 }

@@ -12,22 +12,22 @@ namespace BusBoard
         static void Main(string[] args)
         {
             //ask for bus stop code, display upcoming buses
-            //var busStop = new Prompts().GetUserInput("Type a bus stop code to see the next 5 buses at that stop");
-           // var tflBusResponse = GetTflBusesFromStopCode(busStop);
-            //DisplayAllBuses(tflBusResponse);n15 
+            var busStop = new Prompts().GetUserInput("Type a bus stop code to see the next 5 buses at that stop");
             
             //provide postcode, display 
             var postcode = new Prompts().GetUserInput("Enter your postcode");
             var postcodeResponse = GetResponseFromPostcodesIo(postcode);
             var latitute = GetLatFromPostcodeIoResponse(postcodeResponse);
             var longitude = GetLonFromPostcodeIoResponse(postcodeResponse);
-            var stopPoints = TflBusStopsNearLatLon(longitude, latitute);
-            DisplayStopPointName(stopPoints);
-            //var stopPointID = DisplayStopPointId(stopPoints);
-           
+            var stopPointCodes = TflBusStopsNearLatLon(longitude, latitute);
+            var busStopTwo = GetStopPointCode(stopPointCodes);
+          
+            var tflBusResponse = GetTflBusesFromStopCode(busStop, busStopTwo);
+            DisplayAllBuses(tflBusResponse);
+
         }
 
-         private static List<Bus> GetTflBusesFromStopCode(string busStop)
+         private static List<Bus> GetTflBusesFromStopCode(string busStop, string busStopTwo)
         {
             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
             var tflBusResponse = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStop}/Arrivals");
@@ -62,14 +62,14 @@ namespace BusBoard
          private static StopPointsRadius TflBusStopsNearLatLon(string latitude, string longitude)
          {
              ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
-             StopPointsRadius tflStopPointsInRadius = tflClient.GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={longitude}&lon={latitude}");
+             var tflStopPointsInRadius = tflClient.GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={longitude}&lon={latitude}");
              return tflStopPointsInRadius;
          }
 
-         private static void DisplayStopPointName(StopPointsRadius stopPoints)
+         private static string GetStopPointCode(StopPointsRadius stopPoints)
          {
-             var newstop = stopPoints.StopPoints.First();
-             
+             var busstop = stopPoints.StopPoints[0].StationNaptan;
+             return busstop;
          }
         //490008660N
     } 
