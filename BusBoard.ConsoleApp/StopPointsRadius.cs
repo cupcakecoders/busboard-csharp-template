@@ -1,14 +1,15 @@
-﻿namespace BusBoard
+﻿using System.Collections.Generic;
+
+namespace BusBoard
 {
     public class StopPointsRadius
     {
-        public StopPoints StopPoints { get; set; }
+        public List<StopPoints> StopPoints { get; set; }
     }
 
-    public class StopPoints
+    public class StopPoints 
     {
-        public string CommonName { get; set; } //StopPoints
-        public string Id { get; set; } //stopcode
+        public string StationNaptan { get; set; } //StopPoints
+        
     }
-    
 }

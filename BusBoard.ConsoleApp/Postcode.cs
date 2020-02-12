@@ -2,12 +2,13 @@
 {
     public class Postcode
     {
-        public Result Result { get; set; }
+        public Result Result { get; set; } //property
+        
     }
 
     public class Result
     {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }
