@@ -13,7 +13,9 @@ namespace BusBoard
         {
             //ask for bus stop code, display upcoming buses
             var busStop = new Prompts().GetUserInput("Type a bus stop code to see the next 5 buses at that stop");
-            
+            var tflBusResponse = GetTflBusesFromStopCode(busStop);
+            DisplayAllBuses(tflBusResponse);
+
             //provide postcode, display 
             var postcode = new Prompts().GetUserInput("Enter your postcode");
             var postcodeResponse = GetResponseFromPostcodesIo(postcode);
@@ -21,13 +23,11 @@ namespace BusBoard
             var longitude = GetLonFromPostcodeIoResponse(postcodeResponse);
             var stopPointCodes = TflBusStopsNearLatLon(longitude, latitute);
             var busStopTwo = GetStopPointCode(stopPointCodes);
-          
-            var tflBusResponse = GetTflBusesFromStopCode(busStop, busStopTwo);
-            DisplayAllBuses(tflBusResponse);
-
+            var buses = GetTflBusesFromStopCode1(busStopTwo);
+            DisplayAllBuses(buses);
         }
 
-         private static List<Bus> GetTflBusesFromStopCode(string busStop, string busStopTwo)
+        private static List<Bus> GetTflBusesFromStopCode(string busStop)
         {
             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
             var tflBusResponse = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStop}/Arrivals");
@@ -68,9 +68,22 @@ namespace BusBoard
 
          private static string GetStopPointCode(StopPointsRadius stopPoints)
          {
-             var busstop = stopPoints.StopPoints[0].StationNaptan;
+             var busstop = stopPoints.StopPoints[0].NaptanId;
              return busstop;
          }
-        //490008660N
+         
+         private static List<Bus> GetTflBusesFromStopCode1(string busStopTwo)
+         {
+             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+             var tflBusResponse1 = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStopTwo}/Arrivals");
+             return tflBusResponse1;//not returning bus data
+         }
+        
     } 
 }
+
+//"longitude": -0.43125,
+//"latitude": 51.576756,
+//e1 6gw
+//490008660N - stop codes works
+//490008360N
