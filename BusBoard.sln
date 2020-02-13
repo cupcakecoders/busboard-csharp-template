@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusBoard.ConsoleApp", "BusBoard.ConsoleApp\BusBoard.ConsoleApp.csproj", "{D99433E1-0B00-40F5-BD91-E538AABCA033}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusBoard.WebApp", "BusBoard.WebApp\BusBoard.WebApp.csproj", "{447CA9BC-33EA-4842-AF78-31E15338380D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{E7CD19FF-10E4-47AC-81B6-6CFDA76ED4CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{D99433E1-0B00-40F5-BD91-E538AABCA033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D99433E1-0B00-40F5-BD91-E538AABCA033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D99433E1-0B00-40F5-BD91-E538AABCA033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{447CA9BC-33EA-4842-AF78-31E15338380D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{447CA9BC-33EA-4842-AF78-31E15338380D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{447CA9BC-33EA-4842-AF78-31E15338380D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{447CA9BC-33EA-4842-AF78-31E15338380D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7CD19FF-10E4-47AC-81B6-6CFDA76ED4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7CD19FF-10E4-47AC-81B6-6CFDA76ED4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7CD19FF-10E4-47AC-81B6-6CFDA76ED4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7CD19FF-10E4-47AC-81B6-6CFDA76ED4CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
