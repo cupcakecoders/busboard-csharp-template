@@ -47,10 +47,21 @@ namespace BusBoard
              return postcodeResponse;
          }
 
+         
          public static string GetLatFromPostcodeIoResponse(Postcode postcodes)
          {
-             var latitude = postcodes.Result.Latitude;
-             return latitude; 
+             try
+             {
+                 var latitude = postcodes.Result.Latitude;
+                 return latitude; 
+                 
+             }
+             catch (UnhandledExceptionEventArgs e)
+             {
+                 Console.WriteLine(e);
+                 throw;
+             }
+             
          }
          
          public static string GetLonFromPostcodeIoResponse(Postcode postcodes)
@@ -76,7 +87,7 @@ namespace BusBoard
          {
              ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
              var tflBusResponse1 = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStopTwo}/Arrivals");
-             return tflBusResponse1;//not returning bus data
+             return tflBusResponse1;
          }
         
     } 
