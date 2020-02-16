@@ -7,12 +7,12 @@ namespace BusBoard
 {
     public class ConnectedApi
     {
-        internal RestClient RestClient { get; set; }
+        internal IRestClient Rc { get; set; }
 
         public T GetResponse<T>(string resource)
         {
             var restRequest = new RestRequest(resource, DataFormat.Json);
-            return RestClient.Get<T>(restRequest).Data;
+            return Rc.Get<T>(restRequest).Data;
         }
     }
 
@@ -21,9 +21,20 @@ namespace BusBoard
 
         public TflConnectedApi(string baseUrl)
         {
-            RestClient = (RestClient) new RestClient(baseUrl)
+            Rc = new RestClient(baseUrl)
                 .AddDefaultQueryParameter("app_id", Environment.GetEnvironmentVariable("TFL_APP_ID"))
                 .AddDefaultQueryParameter("app_key", Environment.GetEnvironmentVariable("TFL_APP_KEY"));
+        }
+      
+        public List<Bus> GetTflBusesFromStopCode(string naptanId)
+        {
+            var tflBusResponse = GetResponse<List<Bus>>($"/StopPoint/{naptanId}/Arrivals");
+            return tflBusResponse;
+        }
+
+        public StopPointsRadius TflBusStopsNearLatLon(string longitude, string latitude)
+        {
+            return GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={latitude}&lon={longitude}");
         }
     }
     
@@ -31,7 +42,13 @@ namespace BusBoard
     {
         public PostCodesConnectedApi(string baseUrl)
         {
-            RestClient = (RestClient) new RestClient(baseUrl);
+            Rc = new RestClient(baseUrl);
+        }
+        
+        public Postcode GetResponseFromPostcodesIo(string postcode)
+        {
+            Postcode postcodeResponse = GetResponse<Postcode>($"/postcodes/{postcode}");
+            return postcodeResponse;
         }
     }
 }
