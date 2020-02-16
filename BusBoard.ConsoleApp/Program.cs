@@ -29,7 +29,7 @@ namespace BusBoard
 
         private static List<Bus> GetTflBusesFromStopCode(string busStop)
         {
-            ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
+            ConnectedApi tflClient = new TflConnectedApi("https://api.tfl.gov.uk");
             var tflBusResponse = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStop}/Arrivals");
             return tflBusResponse;
         }
@@ -41,7 +41,7 @@ namespace BusBoard
 
          public static Postcode GetResponseFromPostcodesIo(string postcode)
          {
-             ConnectedApi postcodeClient = new ConnectedApi("https://api.postcodes.io", "postcodes");
+             ConnectedApi postcodeClient = new PostCodesConnectedApi("https://api.postcodes.io");
              Postcode postcodeResponse = postcodeClient.GetResponse<Postcode>($"/postcodes/{postcode}");
 
              return postcodeResponse;
@@ -71,7 +71,7 @@ namespace BusBoard
          
          private static StopPointsRadius TflBusStopsNearLatLon(string latitude, string longitude)
          {
-             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
+             ConnectedApi tflClient = new TflConnectedApi("https://api.tfl.gov.uk");
              var tflStopPointsInRadius = tflClient.GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={longitude}&lon={latitude}");
              return tflStopPointsInRadius;
          }
@@ -84,7 +84,7 @@ namespace BusBoard
          
          private static List<Bus> GetTflBusesFromStopCode1(string busStopTwo)
          {
-             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
+             ConnectedApi tflClient = new TflConnectedApi("https://api.tfl.gov.uk");
              var tflBusResponse1 = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStopTwo}/Arrivals");
              return tflBusResponse1;
          }
