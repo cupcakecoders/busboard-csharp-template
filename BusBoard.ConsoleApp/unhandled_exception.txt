@@ -1,0 +1,5 @@
+Enter your postcode
+dlajflka
+Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusBoard.Program.GetLatFromPostcodeIoResponse(Postcode postcodes) in C:\Users\KanDil\Documents\training\busboard-csharp-template\BusBoard.ConsoleApp\Program.cs:line 52
+   at BusBoard.Program.Main(String[] args) in C:\Users\KanDil\Documents\training\busboard-csharp-template\BusBoard.ConsoleApp\Program.cs:line 22

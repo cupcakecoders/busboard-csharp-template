@@ -50,17 +50,17 @@ namespace BusBoard
          
          public static string GetLatFromPostcodeIoResponse(Postcode postcodes)
          {
-             try
-             {
+             /*try
+             {*/
                  var latitude = postcodes.Result.Latitude;
                  return latitude; 
                  
-             }
+             /*}
              catch (UnhandledExceptionEventArgs e)
              {
                  Console.WriteLine(e);
                  throw;
-             }
+             }*/
              
          }
          
