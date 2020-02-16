@@ -29,7 +29,7 @@ namespace BusBoard
 
         private static List<Bus> GetTflBusesFromStopCode(string busStop)
         {
-            ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+            ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
             var tflBusResponse = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStop}/Arrivals");
             return tflBusResponse;
         }
@@ -41,12 +41,12 @@ namespace BusBoard
 
          public static Postcode GetResponseFromPostcodesIo(string postcode)
          {
-             ConnectedApi postcodeClient = new ConnectedApi("https://api.postcodes.io");
+             ConnectedApi postcodeClient = new ConnectedApi("https://api.postcodes.io", "postcodes");
              Postcode postcodeResponse = postcodeClient.GetResponse<Postcode>($"/postcodes/{postcode}");
 
              return postcodeResponse;
          }
-
+         
          
          public static string GetLatFromPostcodeIoResponse(Postcode postcodes)
          {
@@ -61,7 +61,6 @@ namespace BusBoard
                  Console.WriteLine(e);
                  throw;
              }*/
-             
          }
          
          public static string GetLonFromPostcodeIoResponse(Postcode postcodes)
@@ -72,7 +71,7 @@ namespace BusBoard
          
          private static StopPointsRadius TflBusStopsNearLatLon(string latitude, string longitude)
          {
-             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
              var tflStopPointsInRadius = tflClient.GetResponse<StopPointsRadius>($"https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={longitude}&lon={latitude}");
              return tflStopPointsInRadius;
          }
@@ -85,7 +84,7 @@ namespace BusBoard
          
          private static List<Bus> GetTflBusesFromStopCode1(string busStopTwo)
          {
-             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk");
+             ConnectedApi tflClient = new ConnectedApi("https://api.tfl.gov.uk", "tfl");
              var tflBusResponse1 = tflClient.GetResponse<List<Bus>>($"/StopPoint/{busStopTwo}/Arrivals");
              return tflBusResponse1;
          }
